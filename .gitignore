@@ -1,2 +1,5 @@
 /.idea
 /*.iml
+/src/main/webapp/WEB-INF/res/app/js/node_modules
+/src/main/webapp/WEB-INF/res/app/js/bundles
+/src/main/webapp/WEB-INF/res/app/js/dist

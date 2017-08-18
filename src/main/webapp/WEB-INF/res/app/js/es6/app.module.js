@@ -23,7 +23,7 @@ import routesConfig from './app.module.routing';
 
 let rootModule = angular.module('app',
 	[
-		route, 'angular-password', resource, uibootstrap, animate, uigrid, 'ui.calendar', 'ui-iconpicker', 'ngSanitize', 'ngCsv',
+		route, 'angular-password', resource, uibootstrap, animate, uigrid,// 'ui.calendar', 'ui-iconpicker', 'ngSanitize', 'ngCsv',
 		components, modals, services,
 		dashboard, profile
 	])

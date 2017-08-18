@@ -26,8 +26,8 @@ branches:
 
 # deployment
 before_deploy:
-  - git config user.email "login@domain"
-  - git config user.name "User Name"
+  - git config user.email "hobbydev.public@gmail.com"
+  - git config user.name "HobbyDev Public"
   - ./heroku_deploy.sh
   - cd src/main/webapp/WEB-INF/res/app/js
   - git add -f dist/*.js
@@ -42,10 +42,10 @@ before_deploy:
 
 deploy:
   provider: heroku
-  api_key: <api_key>
+  api_key: cc5e6c3f-805f-42d1-955e-6bbbf39fa0b1
   app:
-    master: <app_name>
-    dev: <app-name>-dev
+    master: s-planner
+    dev: s-planner-dev
 
 # notifications
 #notifications:
