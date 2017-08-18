@@ -48,5 +48,5 @@ deploy:
     dev: s-planner-dev
 
 # notifications
-#notifications:
-#  slack: hobbydev:7tCTaiIZ7bAh4HqQZGy8yl0C
+notifications:
+  slack: hobbydev:teIsXPUWmiJ5g4Qxpyo2WdQd
