@@ -17,6 +17,13 @@ public class BaseController {
 		return mv;
 	}
 	
+	@PreAuthorize("permitAll()")
+	@RequestMapping(path="/favicon.ico", method = RequestMethod.GET)
+	public ModelAndView getFavicon(ModelAndView mv) {
+		mv.setViewName("redirect:/res/app/media/favicon.ico");
+		return mv;
+	}
+	
 	@RequestMapping(path="/docs", method = RequestMethod.GET)
 	public ModelAndView getApi(ModelAndView mv) {
 		mv.setViewName("swagger-ui");

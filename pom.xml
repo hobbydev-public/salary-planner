@@ -6,7 +6,7 @@
 	<artifactId>salaryplanner</artifactId>
 	<packaging>war</packaging>
 	<version>0.1</version>
-	<name>app</name>
+	<name>Salary Planner</name>
   
 	<properties>
 		<failOnMissingWebXml>false</failOnMissingWebXml>
@@ -169,7 +169,7 @@
 	</dependencies>
 
 	<build>
-		<finalName>app</finalName>
+		<finalName>salary-planner</finalName>
 
 		<plugins>
 			<plugin>
