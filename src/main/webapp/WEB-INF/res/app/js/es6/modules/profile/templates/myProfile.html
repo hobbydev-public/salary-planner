@@ -1,0 +1,56 @@
+<section class="content-header">
+    <h1>
+        My Profile
+    </h1>
+
+    <ol class="breadcrumb">
+        <li><a href="#!/"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li class="active">My Profile</li>
+    </ol>
+</section>
+
+<section class="alerts alerts-pagewide" ng-if="$ctrl.alerts.length != 0">
+    <div uib-alert
+         ng-repeat="alert in $ctrl.alerts" ng-class="'alert-' + (alert.type || 'info') + ' fade in'"
+         close="$ctrl.closeAlert($index)">
+        <strong>{{alert.title}}</strong>
+        <p>{{alert.message}}</p>
+    </div>
+</section>
+
+<section class="content">
+    <div class="row">
+        <div class="col-md-3">
+
+            <div class="box box-primary">
+                <div class="box-body box-profile">
+                    <img class="profile-user-img img-responsive img-circle" src="res/app/media/defaults/user-image.png">
+
+                    <h3 class="profile-username text-center">{{$ctrl.user.firstName}} {{$ctrl.user.lastName}}</h3>
+
+                    <p class="text-muted text-center">{{$ctrl.user.position.name}}</p>
+
+                    <ul class="list-group list-group-unbordered">
+                        <li class="list-group-item">
+                            <b>Email</b> <a class="pull-right" href="mailto:{{$ctrl.user.email}}">{{$ctrl.user.email}}</a>
+                        </li>
+                    </ul>
+
+                    <button class="btn btn-danger btn-block" ng-click="$ctrl.openChangePasswordModal()"><b>Change password</b></button>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="col-md-9">
+            <uib-tabset class="nav-tabs-custom">
+                <uib-tab index="0" heading="TBD">
+                    TBD
+                </uib-tab>
+                <uib-tab index="1" heading="Settings">
+                    <edit-user-data-form user="$ctrl.user"></edit-user-data-form>
+                </uib-tab>
+            </uib-tabset>
+        </div>
+    </div>
+</section>

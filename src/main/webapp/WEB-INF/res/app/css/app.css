@@ -1,0 +1,19 @@
+.box-tools-typeahead {
+    width: 50%;
+}
+
+.retain-line-breaks {
+    white-space: pre-line;
+}
+
+.alerts-pagewide {
+     margin-right: auto;
+     margin-left: auto;
+     padding: 15px 15px 0 15px;
+ }
+
+.no-table-data-message {
+    text-align: center;
+    font-size: 1.3em;
+    opacity: 0.5;
+}
