@@ -1,0 +1,52 @@
+language: java
+jdk:
+  - oraclejdk8
+
+before_install:
+  - chmod +x ./heroku_deploy.sh
+  - nvm install 7
+  - npm install -g npm@3.10.10
+  - cd src/main/webapp/WEB-INF/res/app/js
+  - npm install
+  - npm run webpack
+  - npm run transpile
+  - cd ../../../../../../..
+
+# build safelist
+branches:
+  only:
+  - master
+  - dev
+
+# codecov integration
+#script: "mvn cobertura:cobertura"
+#after_success:
+#  - bash <(curl -s https://codecov.io/bash)
+
+
+# deployment
+before_deploy:
+  - git config user.email "login@domain"
+  - git config user.name "User Name"
+  - ./heroku_deploy.sh
+  - cd src/main/webapp/WEB-INF/res/app/js
+  - git add -f dist/*.js
+  - git add -f node_modules/bootstrap/dist
+  - git add -f node_modules/font-awesome/css
+  - git add -f node_modules/font-awesome/fonts
+  - git add -f node_modules/admin-lte/dist
+  - git add -f node_modules/admin-lte/plugins/slimScroll
+  - git add -f node_modules/angular-ui-grid/ui-grid.css
+  - git commit -q --no-status -a -m "adding heroku environment definition and building FE"
+  - cd ../../../../../../..
+
+deploy:
+  provider: heroku
+  api_key: <api_key>
+  app:
+    master: <app_name>
+    dev: <app-name>-dev
+
+# notifications
+#notifications:
+#  slack: hobbydev:7tCTaiIZ7bAh4HqQZGy8yl0C
