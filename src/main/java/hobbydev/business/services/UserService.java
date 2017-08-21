@@ -2,6 +2,7 @@ package hobbydev.business.services;
 
 import hobbydev.business.exception.ResourceForbiddenOperationException;
 import hobbydev.business.exception.ResourceNotFoundException;
+import hobbydev.domain.currencies.UserCurrency;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
@@ -23,4 +24,8 @@ public interface UserService extends UserDetailsService {
     User changePassword(Long userId, String oldRawPass, String newRawPass) throws ResourceNotFoundException, ResourceForbiddenOperationException;
     String/*boolean*/ startPasswordRestore(String username) throws ResourceNotFoundException;
     boolean completePasswordRestore(String restoreKey, String newRawPassword) throws ResourceNotFoundException;
+    
+    // User currencies methods
+    UserCurrency addUserCurrency(Long userId, UserCurrency currency) throws ResourceForbiddenOperationException, ResourceNotFoundException;
+    boolean deleteUserCurrency(Long userId, Long currencyId) throws ResourceForbiddenOperationException, ResourceNotFoundException;
 }

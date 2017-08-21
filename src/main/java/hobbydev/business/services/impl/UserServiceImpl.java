@@ -4,6 +4,7 @@ import hobbydev.business.AbstractService;
 import hobbydev.business.exception.ResourceForbiddenOperationException;
 import hobbydev.business.exception.ResourceNotFoundException;
 import hobbydev.business.services.UserService;
+import hobbydev.domain.currencies.UserCurrency;
 import hobbydev.domain.users.User;
 import org.jasypt.springsecurity3.authentication.encoding.PasswordEncoder;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -181,6 +182,59 @@ public class UserServiceImpl extends AbstractService implements UserService {
         
         persistant.setPassword(passwordEncoder.encodePassword(newRawPassword, null));
         persistant.setRestoreKey(null);
+        
+        return true;
+    }
+    
+    @Override
+    @Transactional
+    public UserCurrency addUserCurrency(Long userId, UserCurrency currency) throws ResourceForbiddenOperationException, ResourceNotFoundException {
+        if(userId == null || Long.valueOf(0).compareTo(userId) >= 0) {
+            throw new ResourceNotFoundException("User ID does not exist.");
+        }
+        
+        if(currency == null || currency.getCode() == null || currency.getCode().trim().isEmpty()) {
+            throw new ResourceForbiddenOperationException("Invalid currency data.");
+        }
+        
+        User user = getUser(userId);
+        boolean hasCurrency = user.getCurrencies().stream()
+                .anyMatch(c -> c.getCode().equalsIgnoreCase(currency.getCode()));
+        
+        if(hasCurrency) {
+            throw new ResourceForbiddenOperationException("User already has a [" + currency.getCode() + "] currency added");
+        }
+        
+        user.addCurrency(currency);
+        
+        return currency;
+    }
+    
+    @Override
+    @Transactional
+    public boolean deleteUserCurrency(Long userId, Long currencyId) throws ResourceForbiddenOperationException, ResourceNotFoundException {
+        if(userId == null || Long.valueOf(0).compareTo(userId) >= 0) {
+            throw new ResourceNotFoundException("User ID does not exist.");
+        }
+        
+        if(currencyId == null || Long.valueOf(0).compareTo(currencyId) >= 0) {
+            throw new ResourceNotFoundException("Currency ID does not exist.");
+        }
+        
+        User user = getUser(userId);
+        boolean hasCurrency = user.getCurrencies().stream()
+                .anyMatch(c -> c.getId().equals(currencyId));
+        
+        if(!hasCurrency) {
+            return false;
+        }
+    
+        UserCurrency currency = user.getCurrencies().stream()
+                .filter(c -> c.getId().equals(currencyId))
+                .findFirst()
+                .orElseThrow(() -> new ResourceNotFoundException("User with ID=[" + userId + "] does not have a currency with ID=[" + currencyId + "]."));
+        
+        user.removeCurrency(currency);
         
         return true;
     }
