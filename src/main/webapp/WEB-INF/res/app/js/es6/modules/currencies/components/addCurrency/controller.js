@@ -1,6 +1,5 @@
 export default class AddCurrencyController {
     constructor($scope,
-                $http,
                 currencyService) {
         'ngInject';
 
@@ -9,15 +8,45 @@ export default class AddCurrencyController {
         let rootScope = $scope.$root;
 
         _ctrl.currencyService = currencyService;
-        _ctrl.httpService = $http;
         _ctrl._initData();
     }
 
     loadCurrencies(query) {
+        let _ctrl = this;
+        return _ctrl.currencyService.loadCurrencies(
+            query,
+            function (httpResp) {
+                _ctrl.alerts.push({
+                    type: 'danger',
+                    title: 'Oh snap!',
+                    message: httpResp.data.message
+                });
+
+                /*_ctrl.log.error(
+                    httpResp.config.method,
+                    httpResp.config.url,
+                    httpResp.status,
+                    httpResp.statusText,
+                    httpResp.data.message,
+                    httpResp.data.stackTrace
+                );*/
+            }
+        );
+    }
+
+    addCurrency() {
 
     }
 
     _initData() {
         let _ctrl = this;
+
+        _ctrl.alerts = [];
+
+        _ctrl.currency = null;
+    }
+
+    closeAlert(index) {
+        this.alerts.splice(index, 1);
     }
 }

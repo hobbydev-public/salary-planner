@@ -1,11 +1,48 @@
 <div class="box box-primary">
     <div class="box-body">
-        <form id="add-currency-form" ng-submit="$ctrl.addCurrency()">
+        <form id="add-currency-form" name="addCurrencyForm" class="form-horizontal" ng-submit="$ctrl.addCurrency()">
+            <div uib-alert
+                 ng-repeat="alert in $ctrl.alerts" ng-class="'alert-' + (alert.type || 'info') + ' fade in'"
+                 close="$ctrl.closeAlert($index)">
+                <strong>{{alert.title}}</strong>
+                <p>{{alert.message}}</p>
+            </div>
+
             <div class="form-group">
-                <label for="query">Search</label>
-                <input type="text" class="form-control"
-                       id="query" name="query" ng-model="$ctrl.query"
-                       placeholder="Type to search..." required="required"/>
+                <label for="query" class="control-label col-sm-2">Search</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control"
+                           id="query" name="query" autocomplete="off"
+                           ng-model="$ctrl.currency"
+                           placeholder="Type to search..." required="required"
+                           uib-typeahead="currency as (currency.name + '(' + currency.code + ')') for currency in $ctrl.loadCurrencies(addCurrencyForm.query.$viewValue) | limitTo:10"
+                           typeahead-min-length="2" typeahead-editable="false" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="name" class="control-label col-sm-2">Name</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control"
+                           id="name" name="name" ng-model="$ctrl.currency.name"
+                           disabled="disabled">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="code" class="control-label col-sm-2">Code</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control"
+                           id="code" name="code" ng-model="$ctrl.currency.code"
+                           disabled="disabled">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <button type="submit" class="btn btn-success"
+                            ng-disabled="$ctrl.currency == null || $ctrl.currency == undefined">Add</button>
+                </div>
             </div>
         </form>
     </div>
