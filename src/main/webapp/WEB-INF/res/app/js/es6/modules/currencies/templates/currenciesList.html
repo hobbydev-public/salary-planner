@@ -34,13 +34,17 @@
                     <table class="table table-condensed" ng-if="$ctrl.currencies.length > 0">
                         <thead>
                             <tr>
-                                <th class="col-xs-10">Name</th>
+                                <th class="col-xs-7">Name</th>
+                                <th class="col-xs-2">Code</th>
+                                <th class="col-xs-1">Symbol</th>
                                 <th class="col-xs-2">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr ng-repeat="currency in $ctrl.currencies">
                                 <td>{{currency.name}}</td>
+                                <td>{{currency.code}}</td>
+                                <td>{{currency.symbol}}</td>
                                 <td>
                                     <a href ng-click="$ctrl.openRemoveCurrencyModal(currency.id)"><i class="fa fa-remove"></i></a>
                                 </td>

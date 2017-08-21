@@ -2,7 +2,7 @@ package hobbydev.business.services.impl;
 
 import hobbydev.business.AbstractService;
 import hobbydev.business.exception.ResourceNotFoundException;
-import hobbydev.business.services.CurrencyService;
+import hobbydev.business.services.UserCurrencyService;
 import hobbydev.domain.currencies.UserCurrency;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class CurrencyServiceImpl extends AbstractService implements CurrencyService {
+public class UserCurrencyServiceImpl extends AbstractService implements UserCurrencyService {
 	
 	@Override
 	protected Class<UserCurrency> getEntityClass() {

@@ -68,7 +68,7 @@ export default class CurrenciesListController {
         let _ctrl = this;
         _ctrl.alerts = [];
 
-        /*_ctrl.currencies = _ctrl.currencyService.listCurrencies(
+        _ctrl.currencies = _ctrl.currencyService.listCurrencies(
             function () {},
             function (httpResp) {
                 _ctrl.alerts.push({
@@ -86,7 +86,7 @@ export default class CurrenciesListController {
                     httpResp.data.stackTrace
                 );
             }
-        );*/
+        );
     }
 
     closeAlert(index) {

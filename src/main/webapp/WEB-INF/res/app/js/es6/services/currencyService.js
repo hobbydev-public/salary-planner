@@ -56,13 +56,19 @@ export default class CurrencyService {
         );
     }
 
-    addCurrency(currencyCode, success, fail) {
+    addCurrency(currencyObject, success, fail) {
         let _service = this;
+        let currencyResource = new _service.res();
 
-        currencyResource.save(
-            {
-                currencyId: currencyCode
-            },
+        currencyResource.symbol = currencyObject.symbol;
+        currencyResource.name = currencyObject.name;
+        currencyResource.nativeSymbol = currencyObject.nativeSymbol;
+        currencyResource.decimalDigitsCount=currencyObject.decimalDigitsCount;
+        currencyResource.rounding = currencyObject.rounding;
+        currencyResource.code = currencyObject.code;
+        currencyResource.pluralName = currencyObject.pluralName;
+
+        currencyResource.$save(
             {},
             success,
             fail

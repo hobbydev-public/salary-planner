@@ -36,7 +36,7 @@ public class LoggingWebRestController {
 	
 	@PreAuthorize("isAuthenticated()")
 	@RequestMapping(path = "", method = RequestMethod.GET)
-	public ResponseEntity<List<LogEntryModel>> getLogs() {
+	public ResponseEntity<List<LogEntryModel>> listLogs() {
 		List<LogEntryModel> models = loggingService.listLogs().stream()
 				.map(domain -> new LogEntryModel(domain))
 				.collect(Collectors.toList());

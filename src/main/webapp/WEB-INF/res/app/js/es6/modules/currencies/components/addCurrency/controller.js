@@ -46,7 +46,7 @@ export default class AddCurrencyController {
         let _ctrl = this;
 
         _ctrl.currencyService.addCurrency(
-            _ctrl.currency.code,
+            _ctrl.currency,
             function () {
                 window.location.reload();
             },
