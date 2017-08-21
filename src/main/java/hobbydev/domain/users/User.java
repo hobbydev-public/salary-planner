@@ -1,13 +1,16 @@
 package hobbydev.domain.users;
 
 import hobbydev.domain.core.IdentifiedEntityInterface;
+import hobbydev.domain.currencies.UserCurrency;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 @Entity
 @Table(name="users")
@@ -35,6 +38,9 @@ public class User implements IdentifiedEntityInterface, UserDetails {
 	private String lastName;
 	@Column(name = "birth_date")
 	private LocalDate birthDate = LocalDate.now();
+	
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+	private List<UserCurrency> currencies = new ArrayList<>();
 
 	@Override
 	public Long getId() {
@@ -98,6 +104,30 @@ public class User implements IdentifiedEntityInterface, UserDetails {
 	
 	public void setBirthDate(LocalDate birthDate) {
 		this.birthDate = birthDate;
+	}
+	
+	public List<UserCurrency> getCurrencies() {
+		return currencies;
+	}
+	
+	public void setCurrencies(List<UserCurrency> currencies) {
+		this.currencies = currencies;
+	}
+	
+	public void addCurrency(UserCurrency currency) {
+		if(currency == null) {
+			return;
+		}
+		currencies.add(currency);
+		currency.setUser(this);
+	}
+	
+	public void removeCurrency(UserCurrency currency) {
+		if(currency == null) {
+			return;
+		}
+		currencies.remove(currency);
+		currency.setUser(null);
 	}
 	
 	@Override
