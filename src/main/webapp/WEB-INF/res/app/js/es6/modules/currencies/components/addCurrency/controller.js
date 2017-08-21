@@ -43,7 +43,30 @@ export default class AddCurrencyController {
     }
 
     addCurrency() {
+        let _ctrl = this;
 
+        _ctrl.currencyService.addCurrency(
+            _ctrl.currency.code,
+            function () {
+                window.location.reload();
+            },
+            function (httpResp) {
+                _ctrl.alerts.push({
+                    type: 'danger',
+                    title: 'Oh snap!',
+                    message: httpResp.data.message
+                });
+
+                _ctrl.log.error(
+                    httpResp.config.method,
+                    httpResp.config.url,
+                    httpResp.status,
+                    httpResp.statusText,
+                    httpResp.data.message,
+                    httpResp.data.stackTrace
+                );
+            }
+        );
     }
 
     _initData() {

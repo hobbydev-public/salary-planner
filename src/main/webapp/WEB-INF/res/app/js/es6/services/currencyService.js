@@ -55,4 +55,17 @@ export default class CurrencyService {
             fail
         );
     }
+
+    addCurrency(currencyCode, success, fail) {
+        let _service = this;
+
+        currencyResource.save(
+            {
+                currencyId: currencyCode
+            },
+            {},
+            success,
+            fail
+        );
+    }
 }
