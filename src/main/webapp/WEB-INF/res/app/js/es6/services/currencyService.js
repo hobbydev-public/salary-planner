@@ -11,27 +11,14 @@ export default class CurrencyService {
         );
     }
 
-    loadCurrencies(query, fail) {
+    loadCurrencies() {
         let _service = this.http;
         let _ctrl = this;
 
-        if(query == 'fail') {
-            fail({data:{message: 'Failed!'}});
-            return [];
-        }
-
-        let tempData = [
-            {
-                name: 'US Dollars',
-                code: 'USD'
-            },
-            {
-                name: 'Canadian Dollars',
-                code: 'CAD'
-            }
-        ];
-
-        return tempData;
+        return _service({
+            method: 'GET',
+            url: 'res/app/json/currencies.json'
+        });
     }
 
     /**

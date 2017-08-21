@@ -1,6 +1,7 @@
 export default class AddCurrencyController {
     constructor($scope,
-                currencyService) {
+                currencyService,
+                logService) {
         'ngInject';
 
         $scope.ctrl = this; // after this assignment, controller instance is available in template either by 'ctrl' or by alias, defined in 'controllerAs'
@@ -8,13 +9,21 @@ export default class AddCurrencyController {
         let rootScope = $scope.$root;
 
         _ctrl.currencyService = currencyService;
+        _ctrl.log = logService;
         _ctrl._initData();
     }
 
     loadCurrencies(query) {
         let _ctrl = this;
-        return _ctrl.currencyService.loadCurrencies(
-            query,
+        return _ctrl.currencyService.loadCurrencies().then(
+            function(dataArray){
+                return dataArray.data.filter(function (item) {
+                    if(item.name.toLowerCase().indexOf(query.toLowerCase()) !== -1 || item.code.toLowerCase().indexOf(query.toLowerCase()) !== -1) {
+                        return true;
+                    }
+                    return false;
+                }, _ctrl);
+            },
             function (httpResp) {
                 _ctrl.alerts.push({
                     type: 'danger',
@@ -22,16 +31,15 @@ export default class AddCurrencyController {
                     message: httpResp.data.message
                 });
 
-                /*_ctrl.log.error(
+                _ctrl.log.error(
                     httpResp.config.method,
                     httpResp.config.url,
                     httpResp.status,
                     httpResp.statusText,
                     httpResp.data.message,
                     httpResp.data.stackTrace
-                );*/
-            }
-        );
+                );
+            });
     }
 
     addCurrency() {

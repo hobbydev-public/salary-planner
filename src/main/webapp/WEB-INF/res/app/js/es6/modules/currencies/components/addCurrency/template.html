@@ -9,14 +9,21 @@
             </div>
 
             <div class="form-group">
-                <label for="query" class="control-label col-sm-2">Search</label>
+                <label for="query" class="control-label col-sm-2">
+                    <span ng-show="loading"><i class="fa fa-circle-o-notch fa-spin"></i></span>
+                    Search
+                </label>
                 <div class="col-sm-10">
                     <input type="text" class="form-control"
                            id="query" name="query" autocomplete="off"
                            ng-model="$ctrl.currency"
                            placeholder="Type to search..." required="required"
                            uib-typeahead="currency as (currency.name + '(' + currency.code + ')') for currency in $ctrl.loadCurrencies(addCurrencyForm.query.$viewValue) | limitTo:10"
-                           typeahead-min-length="2" typeahead-editable="false" />
+                           typeahead-min-length="2" typeahead-editable="false"
+                           typeahead-loading="loading" typeahead-no-results="noResults"/>
+                    <span class="help-block" ng-show="noResults">
+                        Nothing found
+                    </span>
                 </div>
             </div>
 
