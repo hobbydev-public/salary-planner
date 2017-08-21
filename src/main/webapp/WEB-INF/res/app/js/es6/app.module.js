@@ -17,6 +17,7 @@ import services from './services';
 // app modules
 import dashboard from './modules/dashboard';
 import profile from './modules/profile';
+import currencies from './modules/currencies';
 
 // routing
 import routesConfig from './app.module.routing';
@@ -25,7 +26,7 @@ let rootModule = angular.module('app',
 	[
 		route, 'angular-password', resource, uibootstrap, animate, uigrid,// 'ui.calendar', 'ui-iconpicker', 'ngSanitize', 'ngCsv',
 		components, modals, services,
-		dashboard, profile
+		dashboard, profile, currencies
 	])
 	.controller('rootCtrl', function rootCtrl($scope, principalService) {
 

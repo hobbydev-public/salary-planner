@@ -1,0 +1,58 @@
+<section class="content-header">
+    <h1>
+        Currencies
+    </h1>
+
+    <ol class="breadcrumb">
+        <li><a href="#!/"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li class="active">Currencies</li>
+    </ol>
+</section>
+
+<section class="alerts alerts-pagewide" ng-if="$ctrl.alerts.length != 0">
+    <div uib-alert
+         ng-repeat="alert in $ctrl.alerts" ng-class="'alert-' + (alert.type || 'info') + ' fade in'"
+         close="$ctrl.closeAlert($index)">
+        <strong>{{alert.title}}</strong>
+        <p>{{alert.message}}</p>
+    </div>
+</section>
+
+<section class="content">
+    <div class="row">
+        <div class="col-md-3">
+            <add-currency-form></add-currency-form>
+        </div>
+        <div class="col-md-9">
+            <div class="box box-primary">
+
+                <div class="box-body">
+                    <p class="no-table-data-message" ng-if="$ctrl.currencies.length == 0">
+                        There are no currencies added yet. Add the first one.
+                    </p>
+
+                    <table class="table table-condensed" ng-if="$ctrl.currencies.length > 0">
+                        <thead>
+                            <tr>
+                                <th class="col-xs-7">Name</th>
+                                <th class="col-xs-2">Code</th>
+                                <th class="col-xs-1">Symbol</th>
+                                <th class="col-xs-2">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="currency in $ctrl.currencies">
+                                <td>{{currency.name}}</td>
+                                <td>{{currency.code}}</td>
+                                <td>{{currency.symbol}}</td>
+                                <td>
+                                    <a href ng-click="$ctrl.openRemoveCurrencyModal(currency.id)"><i class="fa fa-remove"></i></a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

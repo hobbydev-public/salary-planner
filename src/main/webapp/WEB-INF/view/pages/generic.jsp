@@ -33,8 +33,9 @@
 						<li class="header">MAIN NAVIGATION</li>
 						<li><a href="#!/dashboard"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a></li>
 
-						<sec:authorize access="hasAnyRole('HR', 'ADMIN')">
-							<li class="header">ADMINISTRATION</li>
+						<sec:authorize access="isAuthenticated()">
+							<li class="header">SETTINGS</li>
+							<li><a href="#!/currencies"><i class="fa fa-dollar"></i> Currencies</a></li>
 							<li class="treeview">
 								<a href>
 									<i class="fa fa-circle-o"></i>

@@ -6,6 +6,7 @@ import resource from 'angular-resource';
 import principalService from './principalService';
 import userService from './userService';
 import logService from './logService';
+import currencyService from './currencyService';
 
 export default angular.module('app.services',
     [
@@ -14,4 +15,5 @@ export default angular.module('app.services',
     .service('principalService', principalService)
     .service('userService', userService)
     .service('logService', logService)
+    .service('currencyService', currencyService)
     .name;
