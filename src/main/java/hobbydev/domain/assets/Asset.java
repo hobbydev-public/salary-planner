@@ -6,6 +6,8 @@ import java.math.BigDecimal;
 
 public interface Asset extends IdentifiedEntityInterface {
 	
+	AssetType getType();
+	void setType(AssetType type);
 	String getName();
 	void setName(String name);
 	BigDecimal getBalance();
