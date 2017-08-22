@@ -1,6 +1,8 @@
 package hobbydev.domain.assets;
 
-public enum AssetType {
+import hobbydev.domain.core.LabeledEnum;
+
+public enum AssetType implements LabeledEnum<AssetType> {
 	CASH("Cash"),
 	BANK_ACCOUNT("Bank account");
 	
@@ -10,6 +12,7 @@ public enum AssetType {
 		this.label = label;
 	}
 	
+	@Override
 	public String getLabel() {
 		return label;
 	}
