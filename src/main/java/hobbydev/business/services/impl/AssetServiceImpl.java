@@ -4,11 +4,13 @@ import hobbydev.business.AbstractService;
 import hobbydev.business.exception.ResourceNotFoundException;
 import hobbydev.business.services.AssetService;
 import hobbydev.domain.assets.Asset;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Service
 public class AssetServiceImpl extends AbstractService implements AssetService {
 	
 	@Override
