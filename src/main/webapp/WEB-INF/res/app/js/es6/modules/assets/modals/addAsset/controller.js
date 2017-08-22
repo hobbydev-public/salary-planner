@@ -1,6 +1,7 @@
 export default class AddAssetController {
     constructor($scope,
                 assetService,
+                currencyService,
                 logService) {
         'ngInject';
 
@@ -9,6 +10,7 @@ export default class AddAssetController {
         let rootScope = $scope.$root;
 
         _ctrl.assetService = assetService;
+        _ctrl.currencyService = currencyService;
         _ctrl.log = logService;
         _ctrl._initData();
     }
@@ -43,6 +45,46 @@ export default class AddAssetController {
     _initData() {
         let _ctrl = this;
         _ctrl.alerts = [];
+
+        _ctrl.currencies = _ctrl.currencyService.listCurrencies(
+            function () {},
+            function (httpResp) {
+                _ctrl.alerts.push({
+                    type: 'danger',
+                    title: 'Oh snap!',
+                    message: httpResp.data.message
+                });
+
+                _ctrl.log.error(
+                    httpResp.config.method,
+                    httpResp.config.url,
+                    httpResp.status,
+                    httpResp.statusText,
+                    httpResp.data.message,
+                    httpResp.data.stackTrace
+                );
+            }
+        );
+
+        _ctrl.types = _ctrl.assetService.listTypes(
+            function () {},
+            function (httpResp) {
+                _ctrl.alerts.push({
+                    type: 'danger',
+                    title: 'Oh snap!',
+                    message: httpResp.data.message
+                });
+
+                _ctrl.log.error(
+                    httpResp.config.method,
+                    httpResp.config.url,
+                    httpResp.status,
+                    httpResp.statusText,
+                    httpResp.data.message,
+                    httpResp.data.stackTrace
+                );
+            }
+        );
     }
 
     closeAlert(index) {

@@ -17,6 +17,26 @@ export default class AssetsListController {
 
     }
 
+    openAddAssetModal() {
+        let _ctrl = this;
+
+        let modal = _ctrl.modalProvider.open({
+            component: 'addAssetModal'
+        });
+
+        modal.result.then(
+            function (success) {
+                // on close
+                if(success) {
+                    window.location.reload();
+                }
+            },
+            function () {
+                // on dismiss
+            }
+        );
+    }
+
     openRemoveAssetModal(assetId) {
         let _ctrl = this;
 
