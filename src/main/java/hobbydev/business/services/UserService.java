@@ -2,6 +2,7 @@ package hobbydev.business.services;
 
 import hobbydev.business.exception.ResourceForbiddenOperationException;
 import hobbydev.business.exception.ResourceNotFoundException;
+import hobbydev.domain.assets.Asset;
 import hobbydev.domain.currencies.UserCurrency;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -28,4 +29,9 @@ public interface UserService extends UserDetailsService {
     // User currencies methods
     UserCurrency addUserCurrency(Long userId, UserCurrency currency) throws ResourceForbiddenOperationException, ResourceNotFoundException;
     boolean deleteUserCurrency(Long userId, Long currencyId) throws ResourceForbiddenOperationException, ResourceNotFoundException;
+    
+    // User assets methods
+    Asset addUserAsset(Long userId, Asset asset) throws ResourceNotFoundException, ResourceForbiddenOperationException;
+    Asset updateUserAsset(Long userId, Asset asset) throws ResourceNotFoundException;
+    boolean deleteUserAsset(Long userId, Long assetId) throws ResourceNotFoundException;
 }

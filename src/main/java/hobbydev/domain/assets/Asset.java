@@ -2,6 +2,7 @@ package hobbydev.domain.assets;
 
 import hobbydev.domain.core.IdentifiedEntityInterface;
 import hobbydev.domain.currencies.UserCurrency;
+import hobbydev.domain.users.User;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -28,6 +29,10 @@ public class Asset implements IdentifiedEntityInterface {
 	@ManyToOne
 	@JoinColumn(name = "currency_id")
 	private UserCurrency currency;
+	
+	@ManyToOne
+	@JoinColumn(name = "user_id")
+	private User user;
 	
 	@Override
 	public Long getId() {
@@ -69,6 +74,14 @@ public class Asset implements IdentifiedEntityInterface {
 	
 	public void setCurrency(UserCurrency currency) {
 		this.currency = currency;
+	}
+	
+	public User getUser() {
+		return user;
+	}
+	
+	public void setUser(User user) {
+		this.user = user;
 	}
 	
 	@Override
