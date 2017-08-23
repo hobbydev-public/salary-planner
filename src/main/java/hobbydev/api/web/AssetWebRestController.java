@@ -68,6 +68,13 @@ public class AssetWebRestController {
 	}
 	
 	@PreAuthorize("isAuthenticated()")
+	@RequestMapping(path = "{assetId}", method = RequestMethod.PUT)
+	public ResponseEntity<AssetModel> updateUserAsset(@RequestBody AssetView view, @CurrentUser User auth) throws ResourceNotFoundException, ResourceForbiddenOperationException {
+		Asset domain = userService.updateUserAsset(auth.getId(), view.toDomain());
+		return new ResponseEntity<>(new AssetModel(domain), HttpStatus.CREATED);
+	}
+	
+	@PreAuthorize("isAuthenticated()")
 	@RequestMapping(path = "{assetId}", method = RequestMethod.DELETE)
 	public ResponseEntity<SuccessModel> removeUserAsset(@PathVariable Long assetId, @CurrentUser User auth) throws ResourceNotFoundException, ResourceForbiddenOperationException {
 		boolean deleted = userService.deleteUserAsset(auth.getId(), assetId);

@@ -17,6 +17,50 @@ export default class AssetsListController {
 
     }
 
+    openEditAssetModal(assetId) {
+        let _ctrl = this;
+
+        let modal = _ctrl.modalProvider.open({
+            component: 'editAssetModal',
+            resolve: {
+                asset: function () {
+                    return _ctrl.assetService.getAssetById(
+                        assetId,
+                        function () {},
+                        function (httpResp) {
+                            _ctrl.alerts.push({
+                                type: 'danger',
+                                title: 'Oh snap!',
+                                message: httpResp.data.message
+                            });
+
+                            _ctrl.log.error(
+                                httpResp.config.method,
+                                httpResp.config.url,
+                                httpResp.status,
+                                httpResp.statusText,
+                                httpResp.data.message,
+                                httpResp.data.stackTrace
+                            );
+                        }
+                    );
+                }
+            }
+        });
+
+        modal.result.then(
+            function (success) {
+                // on close
+                if(success) {
+                    window.location.reload();
+                }
+            },
+            function () {
+                // on dismiss
+            }
+        );
+    }
+
     openAddAssetModal() {
         let _ctrl = this;
 

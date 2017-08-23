@@ -38,13 +38,19 @@
                     <table class="table table-condensed" ng-if="$ctrl.assets.length > 0">
                         <thead>
                             <tr>
-                                <th class="col-xs-7">Name</th>
+                                <th class="col-xs-4">Name</th>
+                                <th class="col-xs-4">Type</th>
+                                <th class="col-xs-2">Balance</th>
                                 <th class="col-xs-2">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr ng-repeat="asset in $ctrl.assets">
-                                <td>{{asset.name}}</td>
+                                <td>
+                                    <a href="#!/assets/{{asset.id}}">{{asset.name}}</a>
+                                </td>
+                                <td>{{asset.type.label}}</td>
+                                <td>{{asset.balance}} {{asset.currency.code}}</td>
                                 <td>
                                     <a href ng-click="$ctrl.openEditAssetModal(asset.id)"><i class="fa fa-pencil"></i></a>
                                     <a href ng-click="$ctrl.openRemoveAssetModal(asset.id)"><i class="fa fa-remove"></i></a>

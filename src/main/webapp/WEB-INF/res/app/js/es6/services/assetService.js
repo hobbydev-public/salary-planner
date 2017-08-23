@@ -11,7 +11,10 @@ export default class AssetService {
                     url: 'api/web/assets/types',
                     method: 'GET',
                     isArray: true
-                }
+                },
+                update: {
+                    method: 'PUT'
+                },
             }
         );
     }
@@ -71,6 +74,14 @@ export default class AssetService {
         assetResource.currency = assetObject.currency;
 
         assetResource.$save(
+            {},
+            success,
+            fail
+        );
+    }
+
+    updateAsset(assetResource, success, fail) {
+        assetResource.$update(
             {},
             success,
             fail
