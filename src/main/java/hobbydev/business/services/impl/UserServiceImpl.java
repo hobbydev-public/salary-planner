@@ -4,6 +4,7 @@ import hobbydev.business.AbstractService;
 import hobbydev.business.exception.ResourceForbiddenOperationException;
 import hobbydev.business.exception.ResourceNotFoundException;
 import hobbydev.business.services.UserService;
+import hobbydev.domain.assets.Asset;
 import hobbydev.domain.currencies.UserCurrency;
 import hobbydev.domain.users.User;
 import org.jasypt.springsecurity3.authentication.encoding.PasswordEncoder;
@@ -236,6 +237,81 @@ public class UserServiceImpl extends AbstractService implements UserService {
         
         user.removeCurrency(currency);
         
+        return true;
+    }
+    
+    @Override
+    @Transactional
+    public Asset addUserAsset(Long userId, Asset asset) throws ResourceNotFoundException, ResourceForbiddenOperationException {
+        if(userId == null || Long.valueOf(0).compareTo(userId) >= 0) {
+            throw new ResourceNotFoundException("User ID does not exist.");
+        }
+        
+        if(asset == null) {
+            throw new ResourceForbiddenOperationException("Asset is null.");
+        }
+        
+        User user = getUser(userId);
+        
+        user.addAsset(asset);
+        
+        return asset;
+    }
+    
+    @Override
+    @Transactional
+    public Asset updateUserAsset(Long userId, Asset asset) throws ResourceNotFoundException {
+        if(userId == null || Long.valueOf(0).compareTo(userId) >= 0) {
+            throw new ResourceNotFoundException("User ID does not exist.");
+        }
+    
+        if(asset == null) {
+            throw new IllegalArgumentException("Asset is null");
+        }
+    
+        if(asset.getId() == null || Long.valueOf(0).compareTo(asset.getId()) >= 0) {
+            throw new ResourceNotFoundException("Asset ID does not exist. Only asset with valid ID can be updated.");
+        }
+    
+        User user = getUser(userId);
+        Asset persistant = user.getAssets().stream()
+                .filter(a -> a.getId().equals(asset.getId()))
+                .findFirst()
+                .orElseThrow(() -> new ResourceNotFoundException("User with ID=[" + userId + "] does not have an asset with ID=[" + asset.getId() + "]."));
+    
+        persistant.setName(asset.getName());
+        persistant.setCurrency(asset.getCurrency());
+        persistant.setBalance(asset.getBalance());
+    
+        return persistant;
+    }
+    
+    @Override
+    @Transactional
+    public boolean deleteUserAsset(Long userId, Long assetId) throws ResourceNotFoundException {
+        if(userId == null || Long.valueOf(0).compareTo(userId) >= 0) {
+            throw new ResourceNotFoundException("User ID does not exist.");
+        }
+    
+        if(assetId == null || Long.valueOf(0).compareTo(assetId) >= 0) {
+            throw new ResourceNotFoundException("Asset ID does not exist.");
+        }
+    
+        User user = getUser(userId);
+        boolean hasAsset = user.getAssets().stream()
+                .anyMatch(a -> a.getId().equals(assetId));
+    
+        if(!hasAsset) {
+            return false;
+        }
+    
+        Asset asset = user.getAssets().stream()
+                .filter(a -> a.getId().equals(assetId))
+                .findFirst()
+                .orElseThrow(() -> new ResourceNotFoundException("User with ID=[" + userId + "] does not have an asset with ID=[" + assetId + "]."));
+    
+        user.removeAsset(asset);
+    
         return true;
     }
 }

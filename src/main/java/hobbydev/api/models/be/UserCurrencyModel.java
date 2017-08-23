@@ -13,8 +13,6 @@ public class UserCurrencyModel extends AbstractModel {
 	private String code;
 	private String pluralName;
 	
-	private UserModel user;
-	
 	protected UserCurrencyModel(){}
 	
 	public UserCurrencyModel(UserCurrency domain) {
@@ -27,7 +25,6 @@ public class UserCurrencyModel extends AbstractModel {
 		setRounding(domain.getRounding());
 		setCode(domain.getCode());
 		setPluralName(domain.getPluralName());
-		setUser(new UserModel(domain.getUser(), false));
 	}
 	
 	@Override
@@ -94,13 +91,5 @@ public class UserCurrencyModel extends AbstractModel {
 	
 	public void setPluralName(String pluralName) {
 		this.pluralName = pluralName;
-	}
-	
-	public UserModel getUser() {
-		return user;
-	}
-	
-	public void setUser(UserModel user) {
-		this.user = user;
 	}
 }

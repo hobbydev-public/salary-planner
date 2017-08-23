@@ -1,5 +1,6 @@
 package hobbydev.domain.users;
 
+import hobbydev.domain.assets.Asset;
 import hobbydev.domain.core.IdentifiedEntityInterface;
 import hobbydev.domain.currencies.UserCurrency;
 import org.springframework.security.core.GrantedAuthority;
@@ -41,6 +42,9 @@ public class User implements IdentifiedEntityInterface, UserDetails {
 	
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<UserCurrency> currencies = new ArrayList<>();
+	
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+	private List<Asset> assets = new ArrayList<>();
 
 	@Override
 	public Long getId() {
@@ -130,6 +134,29 @@ public class User implements IdentifiedEntityInterface, UserDetails {
 		currency.setUser(null);
 	}
 	
+	public List<Asset> getAssets() {
+		return assets;
+	}
+	
+	public void setAssets(List<Asset> assets) {
+		this.assets = assets;
+	}
+	
+	public void addAsset(Asset asset) {
+		if(asset == null) {
+			return;
+		}
+		assets.add(asset);
+		asset.setUser(this);
+	}
+	
+	public void removeAsset(Asset asset) {
+		if(asset == null) {
+			return;
+		}
+		assets.remove(asset);
+		asset.setUser(null);
+	}
 	@Override
 	public int hashCode() {
 		final int prime = 31;
