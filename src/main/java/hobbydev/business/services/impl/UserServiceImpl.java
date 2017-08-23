@@ -6,6 +6,7 @@ import hobbydev.business.exception.ResourceNotFoundException;
 import hobbydev.business.services.UserService;
 import hobbydev.domain.assets.Asset;
 import hobbydev.domain.currencies.UserCurrency;
+import hobbydev.domain.transactions.Transaction;
 import hobbydev.domain.users.User;
 import org.jasypt.springsecurity3.authentication.encoding.PasswordEncoder;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,7 @@ import org.springframework.security.crypto.keygen.KeyGenerators;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -254,6 +256,9 @@ public class UserServiceImpl extends AbstractService implements UserService {
         User user = getUser(userId);
         
         user.addAsset(asset);
+    
+        Transaction tx = new Transaction(null, asset, asset.getBalance(), asset.getCurrency().getCode());
+        registerTransaction(tx);
         
         return asset;
     }
@@ -281,7 +286,17 @@ public class UserServiceImpl extends AbstractService implements UserService {
     
         persistant.setName(asset.getName());
         persistant.setCurrency(asset.getCurrency());
+    
+        BigDecimal balanceDelta = asset.getBalance().subtract(persistant.getBalance());
         persistant.setBalance(asset.getBalance());
+        
+        boolean income = balanceDelta.compareTo(BigDecimal.ZERO) > 0;
+        boolean changed = balanceDelta.compareTo(BigDecimal.ZERO) != 0;
+    
+        if(changed) {
+            Transaction tx = new Transaction(income? null:asset, income? asset:null, balanceDelta, asset.getCurrency().getCode());
+            registerTransaction(tx);
+        }
     
         return persistant;
     }

@@ -1,5 +1,6 @@
 package hobbydev.domain.transactions;
 
+import hobbydev.domain.assets.Asset;
 import hobbydev.domain.core.IdentifiedEntityInterface;
 
 import javax.persistence.*;
@@ -20,24 +21,35 @@ public class Transaction implements IdentifiedEntityInterface {
 	private String currency;
 	@Column(name = "tx_timestamp")
 	private ZonedDateTime timestamp;
-	@Column(name = "sender")
-	private String sender;
-	@Column(name = "recipient")
-	private String recipient;
+	
+	@Column(name="from_string")
+	private String from;
+	@Column(name = "to_string")
+	private String to;
+	
+	@ManyToOne
+	@JoinColumn(name = "sender_id")
+	private Asset sender;
+	@ManyToOne
+	@JoinColumn(name = "recipient_id")
+	private Asset recipient;
 	
 	public Transaction(){}
 	
 	public Transaction(
-			TransactionParticipant sender,
-			TransactionParticipant recipient,
+			Asset sender,
+			Asset recipient,
 			BigDecimal amount,
 			String currency) {
 		
 		this.amount = amount;
 		this.currency = currency;
 		this.timestamp = ZonedDateTime.now();
-		this.sender = sender.toTransactionParticipantString();
-		this.recipient = recipient.toTransactionParticipantString();
+		this.sender = sender;
+		this.recipient = recipient;
+		
+		this.from = sender == null? "":sender.toTransactionParticipantString();
+		this.to = recipient == null? "":recipient.toTransactionParticipantString();
 	}
 	
 	@Override
@@ -74,19 +86,35 @@ public class Transaction implements IdentifiedEntityInterface {
 		this.timestamp = timestamp;
 	}
 	
-	public String getSender() {
+	public Asset getSender() {
 		return sender;
 	}
 	
-	public void setSender(String sender) {
+	public void setSender(Asset sender) {
 		this.sender = sender;
 	}
 	
-	public String getRecipient() {
+	public Asset getRecipient() {
 		return recipient;
 	}
 	
-	public void setRecipient(String recipient) {
+	public void setRecipient(Asset recipient) {
 		this.recipient = recipient;
+	}
+	
+	public String getFrom() {
+		return from;
+	}
+	
+	public void setFrom(String from) {
+		this.from = from;
+	}
+	
+	public String getTo() {
+		return to;
+	}
+	
+	public void setTo(String to) {
+		this.to = to;
 	}
 }

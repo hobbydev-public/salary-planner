@@ -2,6 +2,7 @@ package hobbydev.business;
 
 import hobbydev.data.DefaultDAO;
 import hobbydev.domain.core.IdentifiedEntityInterface;
+import hobbydev.domain.transactions.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.transaction.annotation.Transactional;
@@ -34,6 +35,12 @@ public abstract class AbstractService {
 		}
 		
 		return getDAO().delete(clazz, id);
+	}
+	
+	@Transactional
+	protected void registerTransaction(Transaction transaction) {
+		transaction.setId(null);
+		getDAO().create(transaction);
 	}
 
 }
