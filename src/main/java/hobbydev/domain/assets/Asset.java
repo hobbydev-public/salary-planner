@@ -2,6 +2,7 @@ package hobbydev.domain.assets;
 
 import hobbydev.domain.core.IdentifiedEntityInterface;
 import hobbydev.domain.currencies.UserCurrency;
+import hobbydev.domain.transactions.TransactionParticipant;
 import hobbydev.domain.users.User;
 
 import javax.persistence.*;
@@ -9,7 +10,7 @@ import java.math.BigDecimal;
 
 @Entity
 @Table(name = "assets")
-public class Asset implements IdentifiedEntityInterface {
+public class Asset implements IdentifiedEntityInterface, TransactionParticipant {
 	
 	@Id
 	@Column(name="id")
@@ -98,5 +99,20 @@ public class Asset implements IdentifiedEntityInterface {
 	@Override
 	public int hashCode() {
 		return getId().hashCode();
+	}
+	
+	@Override
+	public String toTransactionParticipantString() {
+		StringBuilder stringBuilder = new StringBuilder();
+		stringBuilder
+				.append("Asset [")
+				.append(getName())
+				.append("](")
+				.append(getType().getLabel())
+				.append(" | ")
+				.append(getCurrency().getCode())
+				.append(")");
+		
+		return stringBuilder.toString();
 	}
 }
