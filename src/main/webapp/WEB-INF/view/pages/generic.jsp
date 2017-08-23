@@ -36,6 +36,7 @@
 						<sec:authorize access="isAuthenticated()">
 							<li class="header">SETTINGS</li>
 							<li><a href="#!/currencies"><i class="fa fa-dollar"></i> Currencies</a></li>
+							<li><a href="#!/assets"><i class="fa fa-circle-o"></i> Assets</a></li>
 							<li class="treeview">
 								<a href>
 									<i class="fa fa-circle-o"></i>

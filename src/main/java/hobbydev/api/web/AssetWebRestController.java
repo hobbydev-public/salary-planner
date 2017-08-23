@@ -1,6 +1,7 @@
 package hobbydev.api.web;
 
 import hobbydev.api.models.be.AssetModel;
+import hobbydev.api.models.be.EnumModel;
 import hobbydev.api.models.be.generic.SuccessModel;
 import hobbydev.api.models.fe.AssetView;
 import hobbydev.business.exception.ResourceForbiddenOperationException;
@@ -9,6 +10,7 @@ import hobbydev.business.services.AssetService;
 import hobbydev.business.services.UserService;
 import hobbydev.config.CurrentUser;
 import hobbydev.domain.assets.Asset;
+import hobbydev.domain.assets.AssetType;
 import hobbydev.domain.users.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,6 +18,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -33,6 +36,16 @@ public class AssetWebRestController {
 	public ResponseEntity<List<AssetModel>> listUserAssets(@CurrentUser User auth) throws ResourceNotFoundException {
 		List<AssetModel> models = assetService.listUserAssets(auth.getId()).stream()
 				.map(domain -> new AssetModel(domain))
+				.collect(Collectors.toList());
+		
+		return new ResponseEntity<>(models, HttpStatus.OK);
+	}
+	
+	@PreAuthorize("isAuthenticated()")
+	@RequestMapping(path = "types", method = RequestMethod.GET)
+	public ResponseEntity<List<EnumModel>> listTypes() throws ResourceNotFoundException {
+		List<EnumModel> models = Arrays.stream(AssetType.values())
+				.map(assetType -> new EnumModel(assetType))
 				.collect(Collectors.toList());
 		
 		return new ResponseEntity<>(models, HttpStatus.OK);

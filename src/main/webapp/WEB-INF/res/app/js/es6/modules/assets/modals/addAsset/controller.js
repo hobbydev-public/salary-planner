@@ -18,6 +18,8 @@ export default class AddAssetController {
     addAsset() {
         let _ctrl = this;
 
+        _ctrl.asset.type = _ctrl.asset.type.code;
+
         _ctrl.assetService.addAsset(
             _ctrl.asset,
             function () {
@@ -46,8 +48,14 @@ export default class AddAssetController {
         let _ctrl = this;
         _ctrl.alerts = [];
 
+        _ctrl.asset = {};
+
         _ctrl.currencies = _ctrl.currencyService.listCurrencies(
-            function () {},
+            function (currencies) {
+                if(currencies.length > 0) {
+                    _ctrl.asset.currency = currencies[0];
+                }
+            },
             function (httpResp) {
                 _ctrl.alerts.push({
                     type: 'danger',
@@ -67,7 +75,11 @@ export default class AddAssetController {
         );
 
         _ctrl.types = _ctrl.assetService.listTypes(
-            function () {},
+            function (types) {
+                if(types.length > 0) {
+                    _ctrl.asset.type = types[0];
+                }
+            },
             function (httpResp) {
                 _ctrl.alerts.push({
                     type: 'danger',
@@ -89,5 +101,9 @@ export default class AddAssetController {
 
     closeAlert(index) {
         this.alerts.splice(index, 1);
+    }
+
+    dismiss() {
+        this.modalInstance.dismiss();
     }
 }

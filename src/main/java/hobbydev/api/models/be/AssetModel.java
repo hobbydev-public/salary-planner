@@ -11,7 +11,6 @@ public class AssetModel extends AbstractModel {
 	private String name;
 	private BigDecimal balance;
 	private UserCurrencyModel currency;
-	private UserModel user;
 	
 	protected AssetModel(){}
 	
@@ -22,7 +21,6 @@ public class AssetModel extends AbstractModel {
 		setName(domain.getName());
 		setBalance(domain.getBalance());
 		setCurrency(new UserCurrencyModel(domain.getCurrency()));
-		setUser(new UserModel(domain.getUser(), false));
 	}
 	
 	@Override
@@ -65,13 +63,5 @@ public class AssetModel extends AbstractModel {
 	
 	public void setCurrency(UserCurrencyModel currency) {
 		this.currency = currency;
-	}
-	
-	public UserModel getUser() {
-		return user;
-	}
-	
-	public void setUser(UserModel user) {
-		this.user = user;
 	}
 }

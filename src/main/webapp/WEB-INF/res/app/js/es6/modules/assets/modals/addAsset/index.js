@@ -4,6 +4,6 @@ export default {
     controller: ctrl,
     template: require('./template.html'),
     bindings: {
-
+        modalInstance: '='
     }
 }
